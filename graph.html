@@ -5,22 +5,126 @@
 <script type="text/javascript" src="jquery.canvasjs.min.js"></script>
 <script>
 	//put graph generation code here
+
+	//On load function, get our data and do any setup required
 	window.onload = function() {
-		var vescData = [
-		{
-			'time': 0,
-			'current': 1285.76,
-			'rpm': 7200,
-			'duty': 80,
-			'voltage': 6000.56
-		},
-		{
-			'time': 1,
-			'current': 1685.76,
-			'rpm': 7400,
-			'duty': 85,
-			'voltage': 6060.59
-		}]
+	var vescData = [
+	{
+		'time': 0,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 1,
+		'current': 1685.76,
+		'rpm': 7400,
+		'duty': 85,
+		'voltage': 6060.59
+	},
+	{
+		'time': 2,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 3,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 4,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 5,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 6,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 7,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 8,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	},
+	{
+		'time': 9,
+		'current': 1285.76,
+		'rpm': 7200,
+		'duty': 80,
+		'voltage': 6000.56
+	}]
+	var generatedData = generateData(vescData)
+	generateChart(generatedData)
+	}
+
+
+	function generateData(data) {
+		
+	}
+
+
+	function generateChart(data) {
+		var chart = new CanvasJS.Chart("chartContainer", {
+			title: {
+				text: "House Median Price"
+			},
+			axisX: {
+				title: "Time",
+				suffix: "s"
+			},
+			axisY2: {
+				title: "Median List Price",
+				prefix: "$",
+				suffix: "K"
+			},
+			toolTip: {
+				shared: true
+			},
+			legend: {
+				cursor: "pointer",
+				verticalAlign: "top",
+				horizontalAlign: "center",
+				dockInsidePlotArea: true,
+				itemclick: toogleDataSeries
+			},
+			data: [{
+				type:"line",
+				axisYType: "secondary",
+				name: "San Fransisco",
+				showInLegend: true,
+				markerSize: 0,
+				yValueFormatString: "#,###s",
+				dataPoints: 
+			}]
+		});
+		chart.render();
+	}
 </script>
 </head>
 </html>
