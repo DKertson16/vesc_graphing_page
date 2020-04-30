@@ -1,207 +1,232 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="test.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/jquery.canvasjs.min.js"></script>
-<script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="test.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script>
 	//put graph generation code here
 
 	//On load function, get our data and do any setup required
-  $(document).ready(function() {
-	data = [
-	{
-		'time': 0,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 10,
-		'voltage': 6000.56
-	},
-	{
-		'time': 1,
-		'current': 1685.76,
-		'rpm': 7400,
-		'duty': 20,
-		'voltage': 6060.59
-	},
-	{
-		'time': 2,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 30,
-		'voltage': 6000.56
-	},
-	{
-		'time': 3,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 40,
-		'voltage': 6000.56
-	},
-	{
-		'time': 4,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 50,
-		'voltage': 6000.56
-	},
-	{
-		'time': 5,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 60,
-		'voltage': 6000.56
-	},
-	{
-		'time': 6,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 70,
-		'voltage': 6000.56
-	},
-	{
-		'time': 7,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 80,
-		'voltage': 6000.56
-	},
-	{
-		'time': 8,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 90,
-		'voltage': 6000.56
-	},
-	{
-		'time': 9,
-		'current': 1285.76,
-		'rpm': 7200,
-		'duty': 100,
-		'voltage': 6000.56
-	}]
+	$(document).ready(function() {
+		//sample data, real data will be loaded from database
+		data = [
+		{
+			'time': 0,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 10,
+			'voltage': 6000.56
+		},
+		{
+			'time': 1,
+			'current': 1685.76,
+			'rpm': 7400,
+			'duty': 20,
+			'voltage': 6060.59
+		},
+		{
+			'time': 2,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 30,
+			'voltage': 6000.56
+		},
+		{
+			'time': 3,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 40,
+			'voltage': 6000.56
+		},
+		{
+			'time': 4,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 50,
+			'voltage': 6000.56
+		},
+		{
+			'time': 5,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 60,
+			'voltage': 6000.56
+		},
+		{
+			'time': 6,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 70,
+			'voltage': 6000.56
+		},
+		{
+			'time': 7,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 80,
+			'voltage': 6000.56
+		},
+		{
+			'time': 8,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 90,
+			'voltage': 6000.56
+		},
+		{
+			'time': 9,
+			'current': 1285.76,
+			'rpm': 7200,
+			'duty': 100,
+			'voltage': 6000.56
+		}]
 
-  var dataIncluded = [];
-  Object.keys(data[0]).map(key => {
-    if (key !== 'time')
-      dataIncluded.push(key);
-  })
+		var dataIncluded = [];
+		Object.keys(data[0]).map(key => {
+			if (key !== 'time')
+				dataIncluded.push(key);
+		})
 
 
-  //generate data for chart ** NOT IN FUNCTION ** WE ONLY WANT TO DO THIS ONCE
-  var newData = [];
-  for(var i in dataIncluded) {
-    newData.push({
-      type:"line",
-      axisYType: "secondary",
-      name: dataIncluded[i],
-      showInLegend: true,
-      markerSize: 0,
-      yValueFormatString: "#,###s",
-      dataPoints: []
-    })
-  }
+		//generate data for chart ** NOT IN FUNCTION ** WE ONLY WANT TO DO THIS ONCE
+		var newData = [];
+		var axisY = [];
+		for(var i in dataIncluded) {
+			newData.push({
+				type:"line",
+				name: dataIncluded[i],
+				showInLegend: true,
+				markerSize: 0,
+				axisYIndex: parseInt(i),
+				dataPoints: []
+			})
+			axisY.push({
+				title: dataIncluded[i]
+			})
+		}
 
-  // newData[k-1] matches k key:value pair of data[j]
-  // Essentially bruteforcing it use for another data structure here?
-  for(var j in data) {
-    //console.log("j" + j);
-    Object.keys(data[j]).map((key,k) => {
-      //console.log({x:data[j]['time'], y:data[j][key]});
-      if (k !== 0){
-        newData[k-1].dataPoints.push({x:data[j]['time'], y:data[j][key]})
-      }
-    })
-  }
+		// newData[k-1] matches k key:value pair of data[j]
+		// Essentially bruteforcing it use for another data structure here?
+		for(var j in data) {
+			//console.log("j" + j);
+			Object.keys(data[j]).map((key,k) => {
+				//console.log({x:data[j]['time'], y:data[j][key]});
+				if (k !== 0){
+					newData[k-1].dataPoints.push({x:data[j]['time'], y:data[j][key]})
+				}
+			})
+		}
 
-  generateChart([]);
+		generateChart([]);
+		// chart.options.data[0].visible = false;
+		//chart.render();
+		//DONE
 
- // Determines which data has been selected for viewing -> () => array
-	function displayData() {
-    var selectedData = [];
-		$(".form-check-input").each(function() {
-      if($(this).is(":checked")){
-        selectedData.push($(this).val())
-      }
-    })
-    return selectedData;
-	}
 
-  $("#generateButton").click(function() {
-    var selected = displayData()
-    console.log(selected);
-    generateChart(selected);
-  })
 
-  // Generates chart
-	function generateChart(selected) {
 
-		var chart = new CanvasJS.Chart("chartContainer", {
-			title: {
-				text: "Your e-Foil"
-			},
-			axisX: {
-				title: "Time",
-				suffix: "s"
-			},
-			axisY2: {
-				title: "Y-Axis",
-				prefix: "",
-        suffix: "",
-			},
-			toolTip: {
-				shared: true
-			},
-			legend: {
-				cursor: "pointer",
-				verticalAlign: "top",
-				horizontalAlign: "center",
-				dockInsidePlotArea: true
-			},
-			data: newData
-		});
 
-    // check if selected has values - initially empty
-    if (selected.length > 0){
-      for (var i in dataIncluded){
-        if (!selected.includes(dataIncluded[i])){ //if checked in checkbox
-          chart.options.data[i].visible = false;
-        } else {
-          chart.options.data[i].visible = true;
-        }
-      }
-    }
-    // chart.options.data[0].visible = false;
-    chart.render();
-	}
-  })
+
+
+
+		//
+		//
+		// FUNCTIONS
+		//
+		//
+		// Generates chart
+		function generateChart(selected) {
+
+			var chart = new CanvasJS.Chart("chartContainer", {
+				title: {
+					text: "Your e-Foil"
+				},
+				axisX: {
+					title: "Time",
+					suffix: "s"
+				},
+				axisY: axisY,
+				toolTip: {
+					shared: true
+				},
+				legend: {
+					cursor: "pointer",
+					verticalAlign: "top",
+					horizontalAlign: "center",
+					dockInsidePlotArea: true
+				},
+				data: newData
+			});
+
+			// check if selected has values - initially empty
+		    if (selected.length > 0){
+		    	for (var i in dataIncluded){
+			        if (!selected.includes(dataIncluded[i])){ //if checked in checkbox
+			        	chart.options.data[i].visible = false;
+			        } else {
+			        	chart.options.data[i].visible = true;
+			        }
+			    }
+			}
+			chart.render()
+		}
+
+
+
+
+
+
+
+		 // Determines which data has been selected for viewing -> () => array
+		 function displayData() {
+		 	var selectedData = [];
+		 	$(".form-check-input").each(function() {
+		 		if($(this).is(":checked")){
+		 			selectedData.push($(this).val())
+		 		}
+		 	})
+		 	return selectedData;
+		 }
+
+
+
+
+		// Runs when the generate button is clicked.  Calls generateChart with the selected elements
+		$("#generateButton").click(function() {
+			var selected = displayData()
+			console.log(selected);
+			generateChart(selected);
+		})
+
+})
 
 
 </script>
 </head>
-	<body>
-    <div class="wrapper">
-      <div id="selectContainer">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="current">
-          <label class="form-check-label" for="1">current</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="rpm">
-          <label class="form-check-label" for="2">rpm</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="duty">
-          <label class="form-check-label" for="3">duty</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="voltage">
-          <label class="form-check-label" for="4">voltage</label>
-        </div>
-        <div><button type="submit" id="generateButton">Generate</button></div>
-      </div>
-  		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
-    </div>
-  </body>
+<body>
+	<div class="wrapper">
+		<div id="selectContainer">
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="current">
+				<label class="form-check-label" for="1">current</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="rpm">
+				<label class="form-check-label" for="2">rpm</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="duty">
+				<label class="form-check-label" for="3">duty</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="voltage">
+				<label class="form-check-label" for="4">voltage</label>
+			</div>
+			<div><button type="submit" id="generateButton">Generate</button></div>
+		</div>
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+	</div>
+</body>
 </html>
