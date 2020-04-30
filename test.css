@@ -1,0 +1,20 @@
+.wrapper{
+  display: flex;
+  flex-flow:row;
+  align-items: center;
+  width: 100vw;
+  height:100vh;
+}
+
+#selectContainer{
+  width: 150px;
+  height: 100%;
+  display:flex;
+  flex-flow:column;
+  justify-content: center;
+}
+
+#chartContainer {
+  width:100%;
+  height:100%;
+}
